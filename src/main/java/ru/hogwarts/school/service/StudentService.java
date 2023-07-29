@@ -1,7 +1,9 @@
 package ru.hogwarts.school.service;
 
 import org.springframework.stereotype.Service;
+import ru.hogwarts.school.exceptions.StudentNotFoundException;
 import ru.hogwarts.school.model.Student;
+import ru.hogwarts.school.repository.StudentRepository;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,38 +11,38 @@ import java.util.HashMap;
 
 @Service
 public class StudentService {
-    private final HashMap<Long, Student> students = new HashMap<>();
-    private long count = 0;
+    private final StudentRepository studentRepository;
+
+    public StudentService(StudentRepository studentRepository) {
+        this.studentRepository = studentRepository;
+    }
 
     public Student addStudent(Student student) {
-        student.setId(count++);
-        students.put(student.getId(), student);
-        return student;
+        return studentRepository.save(student);
     }
 
     public Student findStudent(long id) {
-        return students.get(id);
+        return studentRepository.findById(id).orElseThrow(StudentNotFoundException::new);
     }
 
     public Student editStudent(Student student) {
-        if (!students.containsKey(student.getId())) {
-            return null;
-        }
-        students.put(student.getId(), student);
-        return student;
+        Student existingStudent = studentRepository.findById(student.getId()).orElseThrow(StudentNotFoundException::new);
+        existingStudent.setAge(student.getAge());
+        existingStudent.setName(student.getName());
+        return studentRepository.save(existingStudent);
     }
 
     public Student deleteStudent(long id) {
-        return students.remove(id);
+        Student studentD = studentRepository.findById(id).orElseThrow(StudentNotFoundException::new);
+        studentRepository.delete(studentD);
+        return studentD;
+    }
+
+    public Collection<Student> getAll() {
+        return studentRepository.findAll();
     }
 
     public Collection<Student> findByAge(int age) {
-        ArrayList<Student> result = new ArrayList<>();
-        for (Student student : students.values()) {
-            if (student.getAge() == age) {
-                result.add(student);
-            }
-        }
-        return result;
+        return studentRepository.findAllByAge(age);
     }
 }
