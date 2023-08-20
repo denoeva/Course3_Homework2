@@ -53,12 +53,12 @@ public class FacultyController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/color")
+    @GetMapping("/all-color")
     public Collection<Faculty> findAllFaculties() {
         return facultyService.findAllFaculties();
     }
 
-    @GetMapping
+    @GetMapping("/color")
     public Collection<Faculty> filtered(@RequestParam String color) {
         return facultyService.findByColor(color);
     }

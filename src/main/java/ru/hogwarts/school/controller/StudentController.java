@@ -90,6 +90,5 @@ public class StudentController {
             e.printStackTrace();
             return ResponseEntity.badRequest().build();
         }
-
     }
 }
