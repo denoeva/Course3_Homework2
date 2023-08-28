@@ -86,7 +86,7 @@ public class StudentControllerTestTRT {
         student.setAge(25);
         template.put("/student/" + student.getId(), student);
         response = template.getForEntity("/student/" + student.getId(), Student.class);
-        assertThat(response.getBody().getAge()).isEqualTo(21);
+        assertThat(response.getBody().getAge()).isEqualTo(25);
     }
 
     @Test
