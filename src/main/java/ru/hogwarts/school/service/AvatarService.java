@@ -1,6 +1,7 @@
 package ru.hogwarts.school.service;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.hogwarts.school.model.Avatar;
@@ -12,6 +13,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.util.List;
 
 @Service
 public class AvatarService {
@@ -36,7 +38,6 @@ public class AvatarService {
         Path path = avatarPath.resolve(studentId + "." + fileExtension);
         byte[] data = multipartFile.getBytes();
         Files.write(path, data, StandardOpenOption.CREATE);
-
         Student studentReference =(studentRepository.getReferenceById(studentId));
         Avatar avatar = avatarRepository.findByStudentId(studentReference.getId()).orElse(new Avatar());
         avatar.setStudent(studentReference);
@@ -46,5 +47,10 @@ public class AvatarService {
         avatar.setFilePath(path.toAbsolutePath().toString());
         avatarRepository.save(avatar);
         return avatar.getId();
+    }
+
+    public List<Avatar> findAvatarsPaginated(Integer pageNumber, Integer pageSize ) {
+        PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize);
+        return avatarRepository.findAll(pageRequest).getContent();
     }
 }

@@ -77,10 +77,10 @@ public class FacultyControllerMvcTest {
                         .content(objectMapper.writeValueAsString(faculty))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk());
+                .andExpect(MockMvcResultMatchers.status().isOk())
 //                .andExpect((ResultMatcher) jsonPath("$.id").value("1"))
-//                .andExpect((ResultMatcher) jsonPath("$.name").value("Медведи"))
-//                .andExpect((ResultMatcher) jsonPath("$.color").value("red"));
+                .andExpect((ResultMatcher) jsonPath("$.name").value("Медведи"))
+                .andExpect((ResultMatcher) jsonPath("$.color").value("red"));
     }
 
     @Test
