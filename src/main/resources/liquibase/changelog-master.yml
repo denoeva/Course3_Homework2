@@ -1,0 +1,3 @@
+databaseChangeLog:
+  - include:
+      file: liquibase/sqlscripts/course-four-lesson-three-index.sql
