@@ -1,5 +1,7 @@
 package ru.hogwarts.school.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,6 +25,8 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
 
 @Service
 public class StudentService {
+    private static final Logger logger = LoggerFactory.getLogger(StudentService.class);
+
     private final StudentRepository studentRepository;
     private final FacultyRepository facultyRepository;
 
@@ -33,14 +37,17 @@ public class StudentService {
     }
 
     public Student addStudent(Student student) {
+        logger.info("Method started - 'addStudent'");
         return studentRepository.save(student);
     }
 
     public Student findStudent(long id) {
+        logger.info("Method started - 'findStudent'");
         return studentRepository.findById(id).orElseThrow(StudentNotFoundException::new);
     }
 
     public Student editStudent(Student student) {
+        logger.info("Method started - 'editStudent'");
         Student existingStudent = studentRepository.findById(student.getId()).orElseThrow(StudentNotFoundException::new);
         existingStudent.setAge(student.getAge());
         existingStudent.setName(student.getName());
@@ -48,38 +55,46 @@ public class StudentService {
     }
 
     public Student deleteStudent(long id) {
+        logger.info("Method started - 'deleteStudent'");
         Student studentD = studentRepository.findById(id).orElseThrow(StudentNotFoundException::new);
         studentRepository.delete(studentD);
         return studentD;
     }
 
     public Collection<Student> getAll() {
+        logger.info("Method started - 'getAll'");
         return studentRepository.findAll();
     }
 
     public Collection<Student> findByAge(int age) {
+        logger.info("Method started - 'findByAge'");
         return studentRepository.findAllByAge(age);
     }
 
     public Collection<Student> findByAgeBetween(int min, int max) {
+        logger.info("Method started - 'findByAgeBetween'");
         return studentRepository.findAllByAgeBetween(min, max);
     }
     
     public Collection<Student> findByFacultyId (Long facultyId) {
+        logger.info("Method started - 'findByFacultyId'");
         return facultyRepository.findById(facultyId)
                 .map(Faculty::getStudents)
                 .orElseThrow(FacultyNotFoundException::new);
     }
 
     public Long getCountOfStudent() {
+        logger.info("Method started - 'getCountOfStudent'");
         return studentRepository.getCountOfStudents();
     }
 
     public Double getAverageAgeStudents() {
+        logger.info("Method started - 'getAverageAgeStudents'");
         return studentRepository.getAverageAgeOfStudents();
     }
 
     public Collection<Student> lastFiveStudent() {
+        logger.info("Method started - 'lastFiveStudent'");
         return studentRepository.findLastFiveStudents();
     }
 }
