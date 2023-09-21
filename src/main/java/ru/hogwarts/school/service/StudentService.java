@@ -20,6 +20,8 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.nio.file.StandardOpenOption.CREATE_NEW;
 
@@ -96,5 +98,22 @@ public class StudentService {
     public Collection<Student> lastFiveStudent() {
         logger.info("Method started - 'lastFiveStudent'");
         return studentRepository.findLastFiveStudents();
+    }
+
+    public List<String> getNamesStartedFrom(char firstSymbol) {
+        return studentRepository.findAll()
+                .stream()
+                .map(Student::getName)
+                .filter(student -> Character.toLowerCase(student.charAt(0))
+                        == Character.toLowerCase(firstSymbol))
+                .collect(Collectors.toList());
+    }
+
+    public double getAverageAge() {
+        return studentRepository.findAll()
+                .stream()
+                .mapToInt(Student::getAge)
+                .average()
+                .orElseThrow(StudentNotFoundException::new);
     }
 }

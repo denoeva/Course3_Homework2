@@ -20,6 +20,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 @RestController
 @RequestMapping("/student")
@@ -103,5 +104,15 @@ public class StudentController {
     @GetMapping("/reports/last-five")
     public Collection<Student> findLastFiveStudents() {
         return  studentService.lastFiveStudent();
+    }
+
+    @GetMapping("/stream/names-starts-from")
+    public List<String> getFirstSymbol(@RequestParam char symbol) {
+        return studentService.getNamesStartedFrom(symbol);
+    }
+
+    @GetMapping("/stream/average-age")
+    public double getAverageAge() {
+        return studentService.getAverageAge();
     }
 }

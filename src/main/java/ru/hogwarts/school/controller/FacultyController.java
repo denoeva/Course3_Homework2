@@ -3,11 +3,14 @@ package ru.hogwarts.school.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.hogwarts.school.exceptions.FacultyNotFoundException;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.service.FacultyService;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 @RestController
 @RequestMapping("/faculty")
@@ -71,5 +74,10 @@ public class FacultyController {
     @GetMapping("/by-student")
     public Faculty findByStudentId(Long studentdId) {
         return facultyService.findByStudentId(studentdId);
+    }
+
+    @GetMapping("/stream/the-longest-name")
+    public String getTheLongestFacultyName() {
+        return facultyService.getTheLongestFacultyName();
     }
 }
