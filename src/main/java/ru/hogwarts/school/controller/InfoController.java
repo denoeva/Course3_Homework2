@@ -22,13 +22,10 @@ public class InfoController {
     @GetMapping("/stream/times")
     public String calculateSum() {
         long timeCurrent = System.currentTimeMillis();
-//        Integer result = Stream.iterate(1, a -> a + 1)
+        Integer result = Stream.iterate(1, a -> a + 1)
+                .limit(1_000_000)
 //                .parallel()
-//                .limit(1_000_000)
-//                .reduce(0, Integer::sum);
-        Long result = LongStream.range(1, 1_000_000)
-                .parallel()
-                .sum();
+                .reduce(0, Integer::sum);
         long timeConsumed = System.currentTimeMillis() - timeCurrent;
         return "Time consumed = " + timeConsumed + " millis. Result = " + result;
     }
