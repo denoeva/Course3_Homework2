@@ -115,4 +115,14 @@ public class StudentController {
     public double getAverageAge() {
         return studentService.getAverageAge();
     }
+
+    @GetMapping("/threads/student-list-async")
+    public void printStudentsListAsync() {
+        studentService.printStudentsListAsync();
+    }
+
+    @GetMapping("/threads/student-list-sync")
+    public void printStudentsListSync() {
+        studentService.printStudentsListSync();
+    }
 }
